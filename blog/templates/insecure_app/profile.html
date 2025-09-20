@@ -1,0 +1,38 @@
+{% extends 'insecure_app/base.html' %}
+
+{% block content %}
+    <h2>Profile for: {{ profile.username }}</h2>
+    <p><strong>ID:</strong> {{ profile.id }}</p>
+    <p><strong>Email:</strong> {{ profile.email }}</p>
+    <p><strong>Bio:</strong> {{ profile.bio }}</p>
+    
+    <p class="error"><strong>Password (Plain Text):</strong> {{ profile.password }}</p>
+    
+    {% if request.session.user_id == profile.id %}
+    <hr>
+    <h3>Delete Your Profile</h3>
+    <form method="post" action="{% url 'delete_profile' %}">
+        <button type="submit" onclick="return confirm('Are you sure?')">Delete My Account</button>
+    </form>
+    {% endif %}
+    
+    <hr>
+    <h3>Comments</h3>
+    {% if request.session.user_id %}
+    <form method="post">
+        <textarea name="comment" rows="4" cols="50" placeholder="Leave a comment..."></textarea>
+        <br>
+        <button type="submit">Post Comment</button>
+    </form>
+    {% else %}
+    <p>You must be logged in to comment.</p>
+    {% endif %}
+    
+    {% for comment in comments %}
+    <div>
+        <p><strong>{{ comment.user.username }}</strong> said:</p>
+        <p>{{ comment.text|safe }}</p>
+    </div>
+    <hr>
+    {% endfor %}
+{% endblock %}

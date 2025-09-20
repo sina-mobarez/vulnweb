@@ -1,0 +1,22 @@
+{% extends 'insecure_app/base.html' %}
+
+{% block content %}
+    <h2>Website Status Checker</h2>
+    <p>Enter a full URL (e.g., http://example.com) to check its status.</p>
+    <form method="get">
+        <input type="text" name="url" size="50">
+        <button type="submit">Check Status</button>
+    </form>
+
+    {% if status %}
+        <p><strong>Status:</strong></p>
+        <pre>{{ status }}</pre>
+    {% endif %}
+    
+    <hr>
+    <p><b>Test SSRF here:</b></p>
+    <ul>
+        <li>Internal Service: <code>http://127.0.0.1:8000/admin/</code></li>
+        <li>Local File Access: <code>file:///etc/hosts</code> (may not work on all systems)</li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'insecure_app/base.html' %}
+
+{% block content %}
+    <h2>Search for Users</h2>
+    <form method="get">
+        <input type="text" name="q" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    {% if query %}
+        <h3>Results for: {{ query|safe }}</h3>
+    {% endif %}
+
+    {% if results %}
+        <ul>
+        {% for result in results %}
+            <li><a href="{% url 'profile' result.id %}">{{ result.username }}</a></li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users found.</p>
+    {% endif %}
+    
+    <hr>
+    <p><b>Test SQL Injection here:</b></p>
+    <p>Try searching for: <code>test' OR '1'='1</code></p>
+{% endblock %}
